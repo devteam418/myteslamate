@@ -1,0 +1,44 @@
+Content-Type: multipart/mixed; boundary="frontier"
+MIME-Version: 1.0
+
+--frontier
+Content-Type: text/cloud-config
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="cloud-config.txt"
+
+#cloud-config
+timezone: '${timezone}'
+output : { all : '| tee -a /var/log/user-data.log' }
+system_info:
+  default_user:
+    name: centos
+    lock_passwd: true
+    gecos: Cloud User
+    groups: [wheel, adm, systemd-journal]
+    sudo: ["ALL=(ALL) NOPASSWD:ALL"] 
+    shell: /bin/bash
+  distro: rhel
+  paths:
+    cloud_dir: /var/lib/cloud
+    templates_dir: /etc/cloud/templates
+  ssh_svcname: sshd
+
+--frontier
+Content-Type: text/x-shellscript; charset=us-ascii
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="user-script.txt"
+
+#!/bin/bash
+cd /tmp
+echo '-------------------------------------------------------------------------------'
+echo ' => Welcome in USERDATA'
+echo '-------------------------------------------------------------------------------'
+
+
+echo '-------------------------------------------------------------------------------'
+echo ' => End of USERDATA'
+echo '-------------------------------------------------------------------------------'
+exit $?
+--frontier--
