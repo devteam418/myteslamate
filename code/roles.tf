@@ -13,7 +13,7 @@ locals {
     //"arn:aws:iam::aws:policy/AmazonRoute53ReadOnlyAccess", // Allow Slave to delete and recreate its recordset in Route53
     //"arn:aws:iam::${data.aws_caller_identity.current.id}:policy/AllowECRFull",  // Allow Slave to pull/push our DXC.GT Docker images
     //"arn:aws:iam::aws:policy/AmazonS3FullAccess", // Allow Slave to copy files from s3 to s3
-    //"arn:aws:iam::aws:policy/AmazonSSMFullAccess", // Allow Slave to execute SSM RunCommand
+    "arn:aws:iam::aws:policy/AmazonSSMFullAccess", // Allow Slave to execute SSM RunCommand
     //"arn:aws:iam::aws:policy/AmazonRDSFullAccess", // Allow Slave to stop/start RDS
     "arn:aws:iam::aws:policy/AdministratorAccess", // Allow Slave to run Terraform create / remove ...
   ]

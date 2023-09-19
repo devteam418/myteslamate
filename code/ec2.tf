@@ -13,11 +13,13 @@ data "aws_ami" "centos-ami" {
   owners = ["self", "amazon", "aws-marketplace", "774944014867"]
 }
 
-/*
+
 locals {
-  user_data = templatefile("./user-data.tftpl", { timezone = var.timezone, region = var.region })
+  user_data = templatefile("./user-data.tftpl", { timezone = var.timezone })
 }
 
+
+/*
 resource "aws_launch_template" "launch-template" {
   name          = "MyTeslaMate-${random_string.grpsuffix.result}"
   image_id      = data.aws_ami.centos-ami.id
@@ -166,50 +168,7 @@ resource "aws_instance" "myteslamate" {
     Owner       = var.owner
   }
 
-  user_data = <<EOF
-Content-Type: multipart/mixed; boundary="frontier"
-MIME-Version: 1.0
-
---frontier
-Content-Type: text/cloud-config
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="cloud-config.txt"
-
-#cloud-config
-timezone: '${var.timezone}'
-output : { all : '| tee -a /var/log/cloud-init-output.log' }
-system_info:
-  default_user:
-    name: ec2-user
-    lock_passwd: true
-    gecos: Cloud User
-    groups: [wheel, adm, systemd-journal]
-    sudo: ["ALL=(ALL) NOPASSWD:ALL"]
-    shell: /bin/bash
-  distro: rhel
-  paths:
-    cloud_dir: /var/lib/cloud
-    templates_dir: /etc/cloud/templates
-  ssh_svcname: sshd
-
---frontier
-Content-Type: text/x-shellscript; charset=us-ascii
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="user-script.txt"
-
-#!/bin/bash
-echo ++++++++++++++++++++++++++++++++++
-echo ++++++ Welcome in USER DATA ++++++
-echo ++++++++++++++++++++++++++++++++++
-
-echo ++++++++++++++++++++++++++++++++++
-echo ++ End                          ++
-echo ++++++++++++++++++++++++++++++++++
-exit $RC
---frontier--
-EOF
+  user_data = textencodebase64(local.user_data, "UTF-8")
 
 }
 

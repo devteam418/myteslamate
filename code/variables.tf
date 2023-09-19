@@ -47,7 +47,8 @@ variable "instance_type" {
 }
 
 variable "ami-name-to-search" {
-  default = "amzn-ami-2018.03.20230809-amazon-ecs-optimized*"
+  //default = "amzn-ami-2018.03.20230809-amazon-ecs-optimized*"
+  default = "al2023-ami-2023.1.20230628.2-kernel-6.1-x86_64*"
 }
 
 resource "random_string" "grpsuffix" {

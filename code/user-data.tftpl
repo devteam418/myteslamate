@@ -12,7 +12,7 @@ timezone: '${timezone}'
 output : { all : '| tee -a /var/log/user-data.log' }
 system_info:
   default_user:
-    name: centos
+    name: ec2-user
     lock_passwd: true
     gecos: Cloud User
     groups: [wheel, adm, systemd-journal]
@@ -31,14 +31,21 @@ Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="user-script.txt"
 
 #!/bin/bash
+echo +++++++++++++++++++++++++++++++
+echo ++++++ Welcome USER DATA ++++++
+echo +++++++++++++++++++++++++++++++
+INS=`curl http://169.254.169.254/latest/meta-data/instance-id`
+echo +++ Updating packages
+yum -y update
+echo ++++++++++++++++++++++++++++++++
+echo ++++++ installing AWS SSM ++++++
+echo ++++++++++++++++++++++++++++++++
+yum install -y epel-release nvme-cli
 cd /tmp
-echo '-------------------------------------------------------------------------------'
-echo ' => Welcome in USERDATA'
-echo '-------------------------------------------------------------------------------'
-
-
-echo '-------------------------------------------------------------------------------'
-echo ' => End of USERDATA'
-echo '-------------------------------------------------------------------------------'
-exit $?
+sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
+sudo systemctl enable amazon-ssm-agent
+sudo systemctl start amazon-ssm-agent
+echo ++++++++++++++++++++++++++++++++
+echo ++++++   SSM INSTALLED    ++++++
+echo ++++++++++++++++++++++++++++++++
 --frontier--
