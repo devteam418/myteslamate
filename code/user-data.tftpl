@@ -34,18 +34,90 @@ Content-Disposition: attachment; filename="user-script.txt"
 echo +++++++++++++++++++++++++++++++
 echo ++++++ Welcome USER DATA ++++++
 echo +++++++++++++++++++++++++++++++
-INS=`curl http://169.254.169.254/latest/meta-data/instance-id`
-echo +++ Updating packages
+echo ++++++ Updating packages ++++++
 yum -y update
+
 echo ++++++++++++++++++++++++++++++++
-echo ++++++ installing AWS SSM ++++++
+echo +++ Docker n Docker Compose  +++
 echo ++++++++++++++++++++++++++++++++
-yum install -y epel-release nvme-cli
-cd /tmp
-sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
-sudo systemctl enable amazon-ssm-agent
-sudo systemctl start amazon-ssm-agent
-echo ++++++++++++++++++++++++++++++++
-echo ++++++   SSM INSTALLED    ++++++
-echo ++++++++++++++++++++++++++++++++
+cd
+yum install docker containerd git screen -y
+sleep 1
+wget https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)
+sleep 1
+mv docker-compose-$(uname -s)-$(uname -m) /usr/libexec/docker/cli-plugins/docker-compose
+sleep 1
+chmod +x /usr/libexec/docker/cli-plugins/docker-compose
+sleep 5
+systemctl enable docker.service --now
+usermod -a -G docker ec2-user
+usermod -a -G docker ssm-user
+(
+cat <<EOCLOC
+version: "3"
+
+services:
+  teslamate:
+    image: teslamate/teslamate:latest
+    restart: always
+    environment:
+      - ENCRYPTION_KEY=tumbler
+      - DATABASE_USER=teslamate
+      - DATABASE_PASS=secret
+      - DATABASE_NAME=teslamate
+      - DATABASE_HOST=database
+      - MQTT_HOST=mosquitto
+    ports:
+      - ${teslamate-port}:4000
+    volumes:
+      - ./import:/opt/app/import
+    cap_drop:
+      - all
+
+  database:
+    image: postgres:13
+    restart: always
+    environment:
+      - POSTGRES_USER=teslamate
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=teslamate
+    volumes:
+      - teslamate-db:/var/lib/postgresql/data
+
+  grafana:
+    image: teslamate/grafana:latest
+    restart: always
+    environment:
+      - DATABASE_USER=teslamate
+      - DATABASE_PASS=secret
+      - DATABASE_NAME=teslamate
+      - DATABASE_HOST=database
+    ports:
+      - ${grafana-port}:3000
+    volumes:
+      - teslamate-grafana-data:/var/lib/grafana
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    restart: always
+    command: mosquitto -c /mosquitto-no-auth.conf
+    ports:
+      - 1883:1883
+    volumes:
+      - mosquitto-conf:/mosquitto/config
+      - mosquitto-data:/mosquitto/data
+
+volumes:
+  teslamate-db:
+  teslamate-grafana-data:
+  mosquitto-conf:
+  mosquitto-data:
+EOCLOC
+) > /home/ec2-user/docker-compose.yml
+
+echo ++++++++++++++++++++++++++
+echo +++ Running TeslaMate  +++
+echo ++++++++++++++++++++++++++
+cd /home/ec2-user/
+docker compose up -d
 --frontier--

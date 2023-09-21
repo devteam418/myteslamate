@@ -15,7 +15,11 @@ data "aws_ami" "centos-ami" {
 
 
 locals {
-  user_data = templatefile("./user-data.tftpl", { timezone = var.timezone })
+  user_data = templatefile("./user-data.tftpl", {
+    timezone       = var.timezone,
+    teslamate-port = var.teslamate-port,
+    grafana-port   = var.grafana-port
+  })
 }
 
 

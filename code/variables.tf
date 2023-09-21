@@ -33,9 +33,14 @@ variable "allowed-ip-map" {
   default = { myip = "82.67.14.30" }
 }
 
-variable "api-port" {
-  // The listening port of the API
+variable "teslamate-port" {
+  // The listening port of Teslamate
   default = 3000
+}
+
+variable "grafana-port" {
+  // The listening port of Grafana
+  default = 4000
 }
 
 variable "timezone" {
@@ -51,7 +56,7 @@ variable "ami-name-to-search" {
   default = "al2023-ami-2023.1.20230628.2-kernel-6.1-x86_64*"
 }
 
-resource "random_string" "grpsuffix" {
+resource "random_string" "sgsuffix" {
   length  = 12
   upper   = true
   numeric = true

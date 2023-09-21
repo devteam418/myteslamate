@@ -1,0 +1,27 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Jenkins-Primary",
+            "type": "shell",
+            "command": "aws ssm start-session --region eu-west-1 --target `aws ec2 describe-instances --filter Name=tag:Name,Values='DXC.GraphTalk.DevOps.jenkins.primary' --region eu-west-1 --query 'Reservations[*].Instances[*].{Instance:InstanceId}'  Name=instance-state-name,Values='running' --output text --profile gdn` --profile gdn"
+        },
+        {
+            "label": "Jenkins-SlaveLTA",
+            "type": "shell",
+            "command": "aws ssm start-session --region eu-west-1 --target `aws ec2 describe-instances --filter Name=tag:Name,Values='DXC.GraphTalk.DevOps.jenkins.slaveLTA' --region eu-west-1 --query 'Reservations[*].Instances[*].{Instance:InstanceId}'  Name=instance-state-name,Values='running' --output text --profile gdn` --profile gdn"
+        },
+        {
+            "label": "Jenkins-SlaveLTB",
+            "type": "shell",
+            "command": "aws ssm start-session --region eu-west-1 --target `aws ec2 describe-instances --filter Name=tag:Name,Values='DXC.GraphTalk.DevOps.jenkins.slaveLTB' --region eu-west-1 --query 'Reservations[*].Instances[*].{Instance:InstanceId}'  Name=instance-state-name,Values='running' --output text --profile gdn` --profile gdn"
+        },
+        {
+            "label": "TeslaMate",
+            "type": "shell",
+            "command": "aws ssm start-session --region eu-west-3 --target `aws ec2 describe-instances --filter Name=tag:Name,Values='MyTeslaMate' --region eu-west-3 --query 'Reservations[*].Instances[*].{Instance:InstanceId}'  Name=instance-state-name,Values='running' --output text --profile tumbler` --profile tumbler"
+        },
+    ]
+}
