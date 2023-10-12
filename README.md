@@ -5,3 +5,9 @@
 ```shell
 aws configure
 ```
+* Download and install Terraform (add link)
+```shell
+brew tap hashicorp/tap
+brew install hashicorp/tap/terraform
+```
+* Clone repo
