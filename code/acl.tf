@@ -24,7 +24,7 @@ resource "aws_default_network_acl" "default-acl" {
     to_port    = 0
   }
 
-  subnet_ids = [aws_subnet.subnet.id, aws_subnet.subnet-ha.id]
+  subnet_ids = [aws_subnet.subnet.id, aws_subnet.subnet-ha.id, aws_subnet.subnet-tier.id]
 
   tags = {
     Name  = upper("myteslamate")

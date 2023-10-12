@@ -2,7 +2,7 @@
 // We'll use AWS Infrastructure
 // -----------------------------------------------------------------------------------------------------
 provider "aws" {
-//  profile = "tumbler"
+  profile = var.profile
   region  = var.region
 }
 
@@ -39,6 +39,16 @@ resource "aws_subnet" "subnet-ha" {
   availability_zone = "${var.region}${var.azha}"
   tags = {
     Name  = upper("myteslamate-app-ha")
+    Owner = var.owner
+  }
+}
+
+resource "aws_subnet" "subnet-tier" {
+  vpc_id            = aws_vpc.vpc.id
+  cidr_block        = "${split(".", var.cidr)[0]}.${split(".", var.cidr)[1]}.32.0/20"
+  availability_zone = "${var.region}${var.aztier}"
+  tags = {
+    Name  = upper("myteslamate-app-tier")
     Owner = var.owner
   }
 }
