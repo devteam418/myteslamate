@@ -40,7 +40,7 @@ yum -y update
 echo ++++++++++++++++++++++++++++++++
 echo +++ Docker n Docker Compose  +++
 echo ++++++++++++++++++++++++++++++++
-cd
+cd /home/ec2-user
 yum install docker containerd git screen -y
 sleep 1
 wget https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)
