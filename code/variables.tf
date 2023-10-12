@@ -1,6 +1,6 @@
 variable "profile" {
   description = "The AWS Credential ID to use"
-  default     = "tumbler"
+  default     = "default"
 }
 
 variable "region" {
@@ -14,13 +14,18 @@ variable "owner" {
 }
 
 variable "az" {
-  // 'a/b/c'. The AZ in which the primary subnets will be created in.
+  // 'a/b/c'. The AZ in which the primary subnet will be created in.
   default = "a"
 }
 
 variable "azha" {
-  // 'a/b/c'. The AZ in which the secundary subnets (for High Availabilty) will be created in. CANNOT be same as 'az'.
+  // 'a/b/c'. The AZ in which the secundary subnet (for High Availabilty) will be created in. CANNOT be same as 'az'.
   default = "b"
+}
+
+variable "aztier" {
+  // 'a/b/c'. The AZ in which the third subnet (for High Availabilty) will be created in. CANNOT be same as 'az'.
+  default = "c"
 }
 
 variable "cidr" {
@@ -29,12 +34,17 @@ variable "cidr" {
 }
 
 variable "allowed-ip-map" {
+  // This is the main security filter, as we use the AWS IP filtering to secure the application access.
   // In this map, add your private IP address, or IP range to allow incoming connexion.
-  default = { myip = "82.67.14.30" }
+  // You can add several IPs.
+  default = {
+    myip = "82.67.14.30"
+  }
 }
 
 variable "teslamate-port" {
-  // The listening port of Teslamate
+  // The listening port of Teslamate.
+  // You can change it to 
   default = 3000
 }
 
@@ -53,7 +63,8 @@ variable "instance_type" {
 
 variable "ami-name-to-search" {
   //default = "amzn-ami-2018.03.20230809-amazon-ecs-optimized*"
-  default = "al2023-ami-2023.1.20230628.2-kernel-6.1-x86_64*"
+  //default = "al2023-ami-2023.1.20230628.2-kernel-6.1-x86_64*"
+  default = "al202?-ami-*kernel-6.1-x86_64*"
 }
 
 resource "random_string" "sgsuffix" {
