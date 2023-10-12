@@ -160,8 +160,8 @@ resource "aws_instance" "myteslamate" {
     ignore_changes = [
       # Ignore changes to tags, e.g. because a management agent
       # updates these based on some ruleset managed elsewhere.
-      //user_data,
-      //instance_type
+      user_data,
+      ami
     ]
   }
 

@@ -39,3 +39,8 @@ resource "aws_route_table_association" "app-ha-route-table-association" {
   subnet_id      = aws_subnet.subnet-ha.id
   route_table_id = aws_route_table.to-internet.id
 }
+
+resource "aws_route_table_association" "app-tier-route-table-association" {
+  subnet_id      = aws_subnet.subnet-tier.id
+  route_table_id = aws_route_table.to-internet.id
+}
