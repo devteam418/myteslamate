@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------------------------------------
 // Security
 // -----------------------------------------------------------------------------------------------------
-// Acls, not so much security here, could be improved 
+// Acls, not so much security here, Firewalling using SGs.
 // -----------------------------------------------------------------------------------------------------
 resource "aws_default_network_acl" "default-acl" {
   default_network_acl_id = aws_vpc.vpc.default_network_acl_id

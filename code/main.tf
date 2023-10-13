@@ -22,6 +22,7 @@ resource "aws_vpc" "vpc" {
 
 // -----------------------------------------------------------------------------------------------------
 // Application subnet(s)
+// Using the AWS default VPC and subnets CIDR range (0.0/20 , 16.0/20, 32.0/20) of a region with 3 AZs
 // -----------------------------------------------------------------------------------------------------
 resource "aws_subnet" "subnet" {
   vpc_id            = aws_vpc.vpc.id

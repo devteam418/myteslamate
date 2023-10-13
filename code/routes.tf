@@ -27,7 +27,6 @@ resource "aws_route_table" "to-internet" {
 
 // -----------------------------------------------------------------------------------------------------
 // Assign APP subnets to Internet
-// This should be changed to use a Private Subnet / Nat Gateway / VPC Endpoint to ECS
 // -----------------------------------------------------------------------------------------------------
 resource "aws_route_table_association" "app-route-table-association" {
   subnet_id      = aws_subnet.subnet.id

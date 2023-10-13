@@ -1,21 +1,14 @@
 // -----------------------------------------------------------------------------------------------------
-// Add here in the list the arn of the Managed Policy you wanna add to your Jenkins instance.
+// Add here in the list the arn of the Managed Policy you wanna add to your instance.
 // -----------------------------------------------------------------------------------------------------
 data "aws_caller_identity" "current" {
-  // The AWS account information
+  // The AWS account information if needed.
 }
 
 locals {
   managed-policies-4-roles = [
-    //"arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM", 
-    //"arn:aws:iam::aws:policy/AmazonEC2FullAccess", // Allow slave to manage its ec2
-    //"arn:aws:iam::aws:policy/AmazonRoute53AutoNamingFullAccess", // Allow Slave to delete and recreate its recordset in Route53
-    //"arn:aws:iam::aws:policy/AmazonRoute53ReadOnlyAccess", // Allow Slave to delete and recreate its recordset in Route53
-    //"arn:aws:iam::${data.aws_caller_identity.current.id}:policy/AllowECRFull",  // Allow Slave to pull/push our DXC.GT Docker images
-    //"arn:aws:iam::aws:policy/AmazonS3FullAccess", // Allow Slave to copy files from s3 to s3
-    "arn:aws:iam::aws:policy/AmazonSSMFullAccess", // Allow Slave to execute SSM RunCommand
-    //"arn:aws:iam::aws:policy/AmazonRDSFullAccess", // Allow Slave to stop/start RDS
-    "arn:aws:iam::aws:policy/AdministratorAccess", // Allow Slave to run Terraform create / remove ...
+    "arn:aws:iam::aws:policy/AmazonSSMFullAccess", // Allows SSM RunCommand / Run Session
+    "arn:aws:iam::aws:policy/AdministratorAccess", // Beware : You can do what ever you want from this machine.
   ]
 }
 
