@@ -4,17 +4,17 @@
 
 ## Important Notice
 
-We developped this infrastructure, using the maximum of [free services of AWS](https://aws.amazon.com/free/), in order to provide an easy way to test the [TelsaMate](https://github.com/adriankumpf/teslamate) application for free.
+We developped this infrastructure, using the maximum of [free services of AWS](https://aws.amazon.com/free/), in order to provide an easy way to test the [TelsaMate](https://github.com/adriankumpf/teslamate) application for [almost] free.
 
 This infra is meant to be free of use during 12 months. Passed this period, **you'll be charged by AWS based on the infrastruture real cost**.
 
-We could not be responsible of any extra charge or costs if you wanted to pursue its usage, or if you forgot to disable it, after this period of time.
+We could not be responsible of any extra charges or costs if you wanted to pursue its usage, or if you forgot to disable it, after this period of time.
 
 ## Remarks
 
 As we use the [free services of AWS](https://aws.amazon.com/free/), this infra is as simple as possible. No Certificate, no Domain, no LoadBalancing, no Instance High Availability, etc...
 
-We use the [basic Docker installation mode](https://docs.teslamate.org/docs/installation/docker), as the [Advanced installation modes](https://docs.teslamate.org/docs/guides/traefik) are too heavy for the `t2.micro` free instance type.
+We use the [basic Docker installation mode](https://docs.teslamate.org/docs/installation/docker), as the [Advanced installation modes](https://docs.teslamate.org/docs/guides/traefik) is too heavy for the `t2.micro` free instance type.
 
 ## About Security
 
@@ -25,7 +25,7 @@ The access to the [TelsaMate](https://github.com/adriankumpf/teslamate) applicat
 ## Requirements
 
 * You must own an AWS account.
-* You must have installed the [Auth for Tesla](https://apps.apple.com/us/app/auth-app-for-tesla/id1552058613) aplication on your phone.
+* You must have installed the [Auth for Tesla](https://apps.apple.com/us/app/auth-app-for-tesla/id1552058613) application on your phone.
 
 ## Steps by Steps Instructions
 
@@ -33,7 +33,7 @@ The access to the [TelsaMate](https://github.com/adriankumpf/teslamate) applicat
 
 * Create your personal [Amazon Web Service Account](https://aws.amazon.com/free/), following the AWS wizard.
 
-* Create another basic IAM user (e.g `Admin`), with the **Administrator** rights, that will be used for provisioning the infrastruture.
+* Create another basic IAM user (e.g `Admin`), with the **Administrator** rights, that will be used for provisioning the infrastructure.
 
 * Create a pair of `AWS Access Key ID` and `AWS Secret Access Key` for this user. You need them for the next step below.
 
@@ -60,7 +60,7 @@ The access to the [TelsaMate](https://github.com/adriankumpf/teslamate) applicat
 
 * Download and install [Terraform](https://developer.hashicorp.com/terraform/downloads) in version **1.6.1**. 
 
-> If you download another version, change the `/code/version.tf` file and the `required_version = "1.6.1"` attribute accordingly to you version.
+> If you download another version, change the `/code/version.tf` file and the `required_version = "1.6.1"` attribute accordingly.
 
 * Clone our repository :
 
